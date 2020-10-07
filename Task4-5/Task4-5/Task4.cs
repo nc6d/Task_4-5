@@ -17,7 +17,7 @@ namespace test4
                     Console.WriteLine("Invalid radius, try again");
                 }
             }
-            while (radius <= 0);
+            while (radius <= 0);    
 
             double circleSquare = CalcualtingSquare(radius);
             double circleLength = CalculatingLength(radius);
