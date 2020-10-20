@@ -9,8 +9,8 @@ namespace Task_5
         static void Main(string[] args)
         {
             // Paths to text files
-            string path_x = @"C:\Users\nc_6d\source\repos\task4&5\Task4-5\x.txt";
-            string path_y = @"C:\Users\nc_6d\source\repos\task4&5\Task4-5\y.txt";
+            string path_x = @"C:\Users\nc_6d\source\repos\task4&5\Task4-5\Task_5\x.txt";
+            string path_y = @"C:\Users\nc_6d\source\repos\task4&5\Task4-5\Task_5\y.txt";
 
             // Creating empty arrays
             double[] arr_x = FilesToGetArrays(path_x);

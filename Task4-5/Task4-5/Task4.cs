@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace test4
+namespace test4 
 {
     class Program
     {
@@ -8,88 +8,93 @@ namespace test4
         {
 
             Console.Clear();
-            double radius;
-            do
+
+            double axisX1;
+            double axisY1;
+            double axisX2;
+            double axisY2;
+            double zoom;
+
+
+            Console.Write("Enter X1 coordinate: ");
+            var temp_x1 = Console.ReadLine();
+            while (!double.TryParse(temp_x1, out axisX1))
             {
-                Console.Write("Enter radius of circle: ");
-                if (!double.TryParse(Console.ReadLine(), out radius) || radius <= 0)
-                {
-                    Console.WriteLine("Invalid radius, try again");
-                }
+                Console.WriteLine("Invalid value, try again");
+                temp_x1 = Console.ReadLine();
             }
-            while (radius <= 0);
 
-            double circleSquare = CalcualtingSquare(radius);
-            double circleLength = CalculatingLength(radius);
+            Console.Write("Enter Y1 coordinate: ");
+            var temp_y1 = Console.ReadLine();
+            while (!double.TryParse(temp_y1, out axisY1))
+            {
+                Console.WriteLine("Invalid value, try again");
+                temp_y1 = Console.ReadLine();
+            } 
+            
+            Console.Write("Enter X2 coordinate: ");
+            var temp_x2 = Console.ReadLine();
+            while (!double.TryParse(temp_x2, out axisX2))
+            {
+                Console.WriteLine("Invalid value, try again");
+                temp_x2 = Console.ReadLine();
+            } 
+            
+            Console.Write("Enter Y2 coordinate: ");
+            var temp_y2 = Console.ReadLine();
+            while (!double.TryParse(temp_y2, out axisY2))
+            {
+                Console.WriteLine("Invalid value, try again");
+                temp_y2 = Console.ReadLine();
+            }
 
-            Console.WriteLine($" Radius: {radius}\n Square: {circleSquare}\n Length {circleLength}");
+            double radiusVector = VectorLength(axisX1, axisY1, axisX2, axisY2);
+            double circleSquare = CircleSquare(radiusVector);
+            double circleLength = CircleLength(radiusVector);
+            
+            Console.WriteLine($"\nCoordinates of radius-vector:\n x1: {axisX1}\t y1: {axisY1}\n x2: {axisX2}\t y2: {axisY2}\n");
+            Console.WriteLine($" Coordinates of center: ({axisX1};{axisY1})\n Radius: {radiusVector}\n Square: {circleSquare}\n Length: {circleLength}\n ");
 
-            CircleDraw(radius);
 
+            Console.Write("Enter zoom factor: ");
+            var temp_zoom = Console.ReadLine();
+            while (!double.TryParse(temp_zoom, out zoom))
+            {
+                Console.WriteLine("Invalid value, try again");
+                temp_zoom = Console.ReadLine();
+            }
+                        
+            double zoomedRadius = ZoomingTheCricle(ref radiusVector, ref zoom);
+            double zoomedCircleSquare = CircleSquare(zoomedRadius);
+            double zoomedCircleLength = CircleLength(zoomedRadius);
+
+            Console.WriteLine($"\nCoordinates of zoomed radius-vector:\n x1: {axisX1}\t y1: {axisY1}\n x2: {axisX2 * zoom}\t y2: {axisY2 * zoom}\n");
+            Console.WriteLine($" Coordinates of center: ({axisX1};{axisY1})\n Zoomed radius: {zoomedRadius}\n Zoomed square: {zoomedCircleSquare}\n Zoomed length: {zoomedCircleLength}\n ");
 
         }
-        static double CalcualtingSquare(double radius)
+
+        static double VectorLength(double x1, double y1, double x2, double y2)
         {
-            double square = radius * radius * Math.PI;
+            double stdVector = Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+            return stdVector;
+        }
+        static double CircleSquare(double r)
+        {
+            double square = r * r * Math.PI;
             return square;
         }
 
-        static double CalculatingLength(double radius)
+        static double CircleLength(double r)
         {
-            double length = 2 * Math.PI * radius;
+            double length = 2 * Math.PI * r;
             return length;
         }
 
-        static void CircleDraw(double radius)
+        static double ZoomingTheCricle(ref double radiusVector, ref double zoom)
         {
-            bool toFillOrNot = false;
-            string input;
-
-            do
-            {
-                Console.Write("Do you want to fill the circle  y/n : ");
-                input = Console.ReadLine().ToLower();
-                if (input != "y" && input != "n")
-                {
-                    Console.WriteLine("Invalid reply, try again");
-                }
-                else if (input == "y")
-                {
-                    toFillOrNot = true;
-                }
-            }
-            while (input != "y" && input != "n");
-
-            Console.WriteLine();
-
-            double radiusIn = radius - 0.4;
-            double radiusOut = radius + 0.4;
-
-            for (double y = radius; y >= -radius; --y)
-            {
-                for (double x = -radius; x < radiusOut; x += 0.5)
-                {
-
-                    double value = x * x + y * y;
-
-                    if (value >= radiusIn * radiusIn && value <= radiusOut * radiusOut)
-                    {
-                        Console.Write(".");
-                    }
-                    else if (toFillOrNot && value < radiusIn * radiusIn && value < radiusOut * radiusOut)
-                    {
-                        Console.Write(".");
-                    }
-                    else
-                    {
-                        Console.Write(" ");
-                    }
-                }
-                Console.WriteLine();
-            }
-
-            Console.ReadKey();
-
+            double zoomedRadiusVector = radiusVector * zoom;
+            return zoomedRadiusVector;
         }
+
     }
 }
